@@ -1,0 +1,21 @@
+/* Write your T-SQL query statement below */
+/*Different Ways of selecting 2nd highest/ Nth Highest Values*/
+
+SELECT TOP 1 
+            Salary AS SecondHighestSalary
+
+FROM Employee
+WHERE id IN
+(SELECT TOP 2 id
+        FROM Employee
+        ORDER BY Salary DESC)
+ORDER BY Salary ASC
+
+
+SELECT MAX(Salary) AS SecondHighestSalary
+FROM Employee
+WHERE Salary NOT IN (SELECT MAX(Salary) FROM Employee)
+
+SELECT TOP 1 LEAD (MAX(Salary)) OVER (ORDER BY Salary DESC) AS SecondHighestSalary
+FROM Employee
+GROUP BY Salary
