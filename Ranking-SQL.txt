@@ -1,0 +1,22 @@
+Details
+Solution
+MS SQL Server
+Runtime
+542 ms
+Beats
+83.59%
+
+
+/* Write your T-SQL query statement below */
+
+SELECT 
+    s.Score,
+    rs.Rank
+
+FROM Scores s
+JOIN (SELECT score,
+       RANK() OVER (ORDER BY Score desc) AS Rank 
+FROM (SELECT DISTINCT(score) 
+      FROM Scores)s) rs
+on rs.Score = s.score
+ORDER BY score DESC
