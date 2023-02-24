@@ -20,3 +20,9 @@ FROM (SELECT DISTINCT(score)
       FROM Scores)s) rs
 on rs.Score = s.score
 ORDER BY score DESC
+
+-- Above Code can be simply rewritten as the following
+
+SELECT score,
+      DENSE_RANK() OVER (Order BY score DESC) AS Rank
+FROM Scores
