@@ -19,3 +19,12 @@ WHERE Salary NOT IN (SELECT MAX(Salary) FROM Employee)
 SELECT TOP 1 LEAD (MAX(Salary)) OVER (ORDER BY Salary DESC) AS SecondHighestSalary
 FROM Employee
 GROUP BY Salary
+
+CREATE FUNCTION getNthHighestSalary(@N INT) RETURNS INT AS
+BEGIN
+    RETURN (
+        SELECT TOP 1 LAG(Salary,(@N -1)) OVER (ORDER BY Salary) AS SecondHighestSalary
+        FROM (SELECT DISTINCT Salary from employee) nthHighest
+        ORDER BY nthHighest.Salary DESC
+    );
+END
